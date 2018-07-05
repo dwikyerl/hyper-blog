@@ -1,29 +1,36 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <v-appheader></v-appheader>
     <router-view/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import AppHeader from '@/components/AppHeader'
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  name: 'App',
+  components: {
+    'v-appheader': AppHeader
+  },
+  computed: {
+    ...mapGetters('auth', ['isLoggedIn'])
+  },
+  methods: {
+    ...mapActions('user', ['getUserInfo'])
+  },
+  created () {
+    if (this.isLoggedIn) {
+      this.getUserInfo()
     }
   }
+}
+</script>
+
+<style lang="scss">
+span.icon {
+  margin-right: .25rem;
+  margin-left: 0;
 }
 </style>

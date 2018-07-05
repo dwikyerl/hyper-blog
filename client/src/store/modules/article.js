@@ -96,10 +96,15 @@ const actions = {
         message: 'Article created successfully',
         type: 'is-success'
       })
+      console.log(data.article)
       commit('updateArticle', data.article)
       router.push({ name: 'home' })
     } catch (e) {
-      console.log(e.response)
+      if (e.response) {
+        console.log(e.response)
+      } else {
+        console.log(e)
+      }
     }
   },
   async editArticle ({ commit }, { updateData, articleId }) {
