@@ -20,7 +20,7 @@ router.route('/')
 
 router.route('/:articleId')
   .get(
-    catchErrors(articlesControllers.getArticleById)
+    catchErrors(articlesControllers.fetchArticleById)
   )
   .put(
     authMiddlewares.verifyToken,

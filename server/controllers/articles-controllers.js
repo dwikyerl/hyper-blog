@@ -34,20 +34,24 @@ exports.createArticle = async (req, res) => {
   });
 };
 
-exports.fetchArticles = async (req, res) => {
-  const findModifiers = {};
-
-  const articles = await Article.find()
-  .populate({
+exports.fetchArticles = async (req, res) => {  
+  const query = Article.find();
+  
+  query.populate({
     path: 'author',
     model: 'User',
     select: '-password -createdAt -updatedAt'
   })
-  .populate({
+
+  query.populate({
     path: 'category',
     model: 'Category',
     select: '-createdAt -updatedAt'
-  }).sort('-createdAt').exec();
+  })
+
+  query.sort('-createdAt');
+  
+  const articles = await query.exec();
 
   res.status(200).json({
     message: 'Articles retrieved successfully',
@@ -55,7 +59,20 @@ exports.fetchArticles = async (req, res) => {
   });
 };
 
-exports.getArticleById = async (req, res) => {
+exports.fetchCategories = async (req, res) => {  
+  const query = Category.find();
+
+  query.sort('description');
+  
+  const categories = await query.exec();
+
+  res.status(200).json({
+    message: 'Categories retrieved successfully',
+    categories,
+  });
+};
+
+exports.fetchArticleById = async (req, res) => {
   const { articleId } = req.params;
   const article = await Article.findOne({ _id: articleId });
 
@@ -70,6 +87,58 @@ exports.getArticleById = async (req, res) => {
     });
   }
 };
+
+exports.fetchArticlesByUser = async (req, res) => {
+  const { userId } = req.params;
+  const query = Article.find({ author: userId });
+
+  query.populate({
+    path: 'author',
+    model: 'User',
+    select: '-password -createdAt -updatedAt'
+  })
+
+  query.populate({
+    path: 'category',
+    model: 'Category',
+    select: '-createdAt -updatedAt'
+  })
+
+  query.sort('-createdAt');
+
+  const articles = await query.exec();
+
+  res.status(200).json({
+    message: 'Articles retrieved successfully',
+    articles,
+  });
+}
+
+exports.fetchArticlesByCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  const query = Article.find({ category: categoryId });
+
+  query.populate({
+    path: 'author',
+    model: 'User',
+    select: '-password -createdAt -updatedAt'
+  })
+
+  query.populate({
+    path: 'category',
+    model: 'Category',
+    select: '-createdAt -updatedAt'
+  })
+
+  query.sort('-createdAt');
+
+  const articles = await query.exec();
+
+  res.status(200).json({
+    message: 'Articles retrieved successfully',
+    articles,
+  });
+}
 
 exports.updateArticle = async (req, res) => {
   const { articleId } = req.params;
@@ -117,6 +186,7 @@ exports.updateArticle = async (req, res) => {
     });
   }
 };
+
 
 exports.deleteArticle = async (req, res) => {
   const { articleId } = req.params;
