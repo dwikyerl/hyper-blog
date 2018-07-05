@@ -17,12 +17,14 @@ exports.createArticle = async (req, res) => {
     author: req.user.id,
   };
 
+  console.log(req.body);
+
   const categoryText = beautifyString(req.body.category)
 
   const category = await Category.findOneAndUpdate(
     { description: categoryText },
     { description: categoryText },
-    { upsert: true }
+    { upsert: true, new: true }
   );
 
   inputData.category = category._id;
@@ -159,7 +161,7 @@ exports.updateArticle = async (req, res) => {
     category = await Category.findOneAndUpdate(
       { description: categoryText },
       { description: categoryText },
-      { upsert: true }
+      { upsert: true, new: true }
     );
   }
 

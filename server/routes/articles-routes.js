@@ -30,8 +30,7 @@ router.route('/:articleId')
     authMiddlewares.verifyToken,
     multer.single('image'),
     sendUploadToGCS,
-    validateUpdateArticle,
-    checkValidation,
+
     catchErrors(articlesControllers.updateArticle)
   )
   .delete(
