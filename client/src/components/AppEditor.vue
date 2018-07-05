@@ -2,6 +2,13 @@
   <section class="section">
     <div class="container">
       <form @submit.prevent="submitArticle">
+
+        <b-field v-if="article" label="Current Image">
+            <figure class="image is-128x128">
+              <img :src="article.imageUrl">
+            </figure>
+        </b-field>
+
         <b-field label="Title">
             <b-input
               v-model="title"
@@ -46,7 +53,8 @@
 
         <b-field>
           <button
-            class="button is-primary is-fullwidth">
+            class="button is-primary is-fullwidth"
+            :class="{'is-loading': isLoading}">
             {{ mode }} Article
           </button>
         </b-field>
@@ -69,7 +77,8 @@ export default {
       title: '',
       content: '',
       files: [],
-      category: ''
+      category: '',
+      isLoading: false
     }
   },
   computed: {
@@ -83,12 +92,15 @@ export default {
   methods: {
     ...mapActions('article', ['postArticle', 'editArticle', 'fetchArticles']),
     submitArticle () {
-      if (this.title.trim() === '' || this.content.trim() === '') {
+      this.isLoading = true
+      if (this.title.trim() === '' || this.content.trim() === '' || this.category.trim() === '') {
         return this._vm.$toast.open({
           duration: 1000,
-          message: 'Title or Content cannot be empty',
+          message: 'Any field cannot be empty',
           type: 'is-danger'
         })
+        
+        this.isLoading = false
       }
 
       const articleData = new FormData()

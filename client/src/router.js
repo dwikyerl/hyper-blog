@@ -12,13 +12,13 @@ const Home = resolve => {
 const Signup = resolve => {
   require.ensure(['./views/Signup.vue'], () => {
     resolve(require('./views/Signup.vue'))
-  }, 'register')
+  }, 'signup')
 }
 
 const Login = resolve => {
   require.ensure(['./views/Login.vue'], () => {
     resolve(require('./views/Login.vue'))
-  }, 'signin')
+  }, 'login')
 }
 
 const Post = resolve => {
@@ -31,6 +31,12 @@ const UserArticles = resolve => {
   require.ensure(['./views/UserArticles.vue'], () => {
     resolve(require('./views/UserArticles.vue'))
   }, 'user-articles')
+}
+
+const CategoryArticles = resolve => {
+  require.ensure(['./views/CategoryArticles.vue'], () => {
+    resolve(require('./views/CategoryArticles.vue'))
+  }, 'category-articles')
 }
 
 const Edit = resolve => {
@@ -87,6 +93,11 @@ export default new Router({
       path: '/users/:username',
       name: 'user-articles',
       component: UserArticles
+    },
+    {
+      path: '/:category/articles',
+      name: 'category-articles',
+      component: CategoryArticles
     },
     {
       path: '/articles/:articleId/edit',

@@ -36,22 +36,35 @@
           <p class="title article-title">{{ article.title }}</p>
           <div class="tags has-addons level-item">
             <span class="tag is-rounded is-info">
-              <router-link
-                :to="{name: 'user-articles',
-                  params: { username: article.author.username }}"
-                  class="author-username">
-                {{ article.author.username }}
-              </router-link>
+              <b-tooltip :label="`${article.author.username}'s articles'`">
+                <router-link
+                  :to="{name: 'user-articles',
+                    params: { username: article.author.username }}"
+                    class="author-username">
+                  {{ article.author.username }}
+                </router-link>
+              </b-tooltip>
             </span>
             <span class="tag is-rounded">{{ formattedCreatedDate }}</span>
           </div>
         </div>
       </div>
+      <div class="article-image-container">
+        <figure class="image">
+          <img class="article-image" :src="article.imageUrl" :alt="article.title">
+        </figure>
+      </div>
       <div v-html="article.content" style="white-space: pre-wrap" class="article-content">
       </div>
     </div>
     <div class="card-footer">
-      <p class="article-edited">Last edited at {{ formattedEditedDate }}</p>
+      <p class="article-edited">Last edited at {{ formattedEditedDate }}</p>          <p class="article-edited">
+        Category:
+        <router-link :to="{name: 'category-articles',
+          params: { category: article.category.description }}">
+          {{ article.category.description }}
+        </router-link>
+      </p>
     </div>
   </div>
 </template>
@@ -110,6 +123,10 @@ export default {
   margin-top: 6rem;
 }
 
+.article {
+  min-width: 100%;
+}
+
 .article-title {
   font-size: 2rem;
   font-weight: dwikyer;
@@ -127,5 +144,19 @@ export default {
   padding: .5rem;
   font-weight: lighter;
   font-size: .8rem;
+}
+
+.article-image-container {
+  height: 30%;
+  margin: 1rem 0 2rem;
+}
+
+.article-image {
+  max-height: 20rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
