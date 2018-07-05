@@ -71,6 +71,21 @@ exports.validateAddArticle = [
     .not().isEmpty().withMessage('Category must not be empty')
 ];
 
+exports.validateUpdateArticle = [
+  body('title')
+    .trim()
+    .isString()
+    .not().isEmpty().withMessage('Title must not be empty'),
+  body('content')
+    .trim()
+    .isString()
+    .not().isEmpty().withMessage('Content must not be empty'),
+  body('category')
+    .trim()
+    .isString()
+    .not().isEmpty().withMessage('Category must not be empty')
+];
+
 exports.checkValidation = (req, res, next)  => {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {

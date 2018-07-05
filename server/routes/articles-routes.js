@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const { articlesControllers } = require('./../controllers');
-const { validateAddArticle, checkValidation } = require('./../middlewares/validation'); 
+const { validateAddArticle, 
+        validateUpdateArticle,
+        checkValidation 
+      } = require('./../middlewares/validation'); 
 const authMiddlewares = require('./../middlewares/auth-middlewares');
 const { catchErrors } = require('../handlers/errorHandlers');
 
@@ -13,6 +16,21 @@ router.route('/')
   )
   .get(
     catchErrors(articlesControllers.fetchArticles)
+  )
+
+router.route('/:articleId')
+  .get(
+    catchErrors(articlesControllers.getArticleById)
+  )
+  .put(
+    authMiddlewares.verifyToken,
+    validateUpdateArticle,
+    checkValidation,
+    catchErrors(articlesControllers.updateArticle)
+  )
+  .delete(
+    authMiddlewares.verifyToken,
+    catchErrors(articlesControllers.deleteArticle)
   )
 
 module.exports = router;
