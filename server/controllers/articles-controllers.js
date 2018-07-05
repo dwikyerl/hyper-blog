@@ -13,6 +13,7 @@ exports.createArticle = async (req, res) => {
   const inputData = {
     title: req.body.title,
     content: req.body.content,
+    imageUrl: req.file.cloudStoragePublicUrl,
     author: req.user.id,
   };
 
@@ -146,6 +147,10 @@ exports.updateArticle = async (req, res) => {
 
   if (req.body.title) updateData.title = req.body.title;
   if (req.body.content) updateData.content = req.body.content;
+
+  if (req.file) {
+    updateData.imageUrl = req.file.cloudStoragePublicUrl
+  }
 
   let category;
   if (req.body.category) {

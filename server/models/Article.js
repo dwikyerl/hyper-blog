@@ -12,6 +12,9 @@ const articleSchema = new Schema({
     trim: true,
     required: true
   },
+  imageUrl: {
+    type: String,
+  },
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'

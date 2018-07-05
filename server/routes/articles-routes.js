@@ -6,10 +6,14 @@ const { validateAddArticle,
       } = require('./../middlewares/validation'); 
 const authMiddlewares = require('./../middlewares/auth-middlewares');
 const { catchErrors } = require('../handlers/errorHandlers');
+const { multer, sendUploadToGCS } = require('./../helpers/files');
+
 
 router.route('/')
   .post(
     authMiddlewares.verifyToken,
+    multer.single('image'),
+    sendUploadToGCS,
     validateAddArticle,
     checkValidation,
     catchErrors(articlesControllers.createArticle)
@@ -24,6 +28,8 @@ router.route('/:articleId')
   )
   .put(
     authMiddlewares.verifyToken,
+    multer.single('image'),
+    sendUploadToGCS,
     validateUpdateArticle,
     checkValidation,
     catchErrors(articlesControllers.updateArticle)
