@@ -1,5 +1,4 @@
 const { validationResult, body } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
 const { User } = require('./../models');
 
 exports.validateSignup = [
@@ -57,7 +56,7 @@ exports.validateLogin = [
     .not().isEmpty().withMessage('Password must not be empty')
 ];
 
-exports.validateAddQuestion = [
+exports.validateAddArticle = [
   body('title')
     .trim()
     .isString()
@@ -65,14 +64,11 @@ exports.validateAddQuestion = [
   body('content')
     .trim()
     .isString()
-    .not().isEmpty().withMessage('Content must not be empty')
-];
-
-exports.validateAddAnswer = [
-  body('content')
+    .not().isEmpty().withMessage('Content must not be empty'),
+  body('category')
     .trim()
     .isString()
-    .not().isEmpty().withMessage('Content must not be empty')
+    .not().isEmpty().withMessage('Category must not be empty')
 ];
 
 exports.checkValidation = (req, res, next)  => {

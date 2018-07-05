@@ -11,7 +11,7 @@ exports.signup = async (req, res) => {
 
   const token = await user.generateToken();
 
-  res.status(200).json({ message: 'Registered successfully', token });
+  res.status(200).json({ message: 'Signed up successfully', token });
 }
 
 exports.getUserInfo = async (req, res) => {
