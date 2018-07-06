@@ -57,7 +57,7 @@
             <a class="navbar-link">
               Account
             </a>
-            <div class="navbar-dropdown">
+            <div class="navbar-dropdown is-right">
               <div class="navbar-item">
                 <p>Signed in as <strong>{{ username}}</strong></p>
               </div>
