@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const options = { useNewUrlParser: true };
+const options = { useNewUrlParser: true, autoReconnect: true };
 if (process.env.DB_USER === 'admin') {
   options.auth = { authdb: 'admin' };
 }
@@ -13,7 +13,10 @@ if (!process.env.NODE_ENV) {
 }
 
 mongoose
-  .connect(process.env.DB_URL,options)
+  .connect(
+    process.env.DB_URL,
+    options
+  )
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB...', err));
 
