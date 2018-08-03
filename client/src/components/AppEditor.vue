@@ -94,13 +94,12 @@ export default {
     submitArticle () {
       this.isLoading = true
       if (this.title.trim() === '' || this.content.trim() === '' || this.category.trim() === '') {
-        return this._vm.$toast.open({
+        this.isLoading = false
+        return this.$toast.open({
           duration: 1000,
           message: 'Any field cannot be empty',
           type: 'is-danger'
         })
-        
-        this.isLoading = false
       }
 
       const articleData = new FormData()
